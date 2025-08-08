@@ -24,7 +24,6 @@ func ReadLines(filename string) ([]string, error) {
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
-
 	return lines, scanner.Err()
 }
 
@@ -46,7 +45,6 @@ func ReadInts(filename string) ([]int, error) {
 		}
 		ints = append(ints, num)
 	}
-
 	return ints, nil
 }
 

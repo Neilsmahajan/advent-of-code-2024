@@ -84,36 +84,37 @@ func SolvePart2(input string) (int, error) {
 		if len(parts) != 2 {
 			return 0, fmt.Errorf("invalid line format: %s", line)
 		}
-
 		leftNum, err := strconv.Atoi(parts[0])
 		if err != nil {
 			return 0, fmt.Errorf("invalid left number: %s", parts[0])
 		}
-
 		rightNum, err := strconv.Atoi(parts[1])
 		if err != nil {
 			return 0, fmt.Errorf("invalid right number: %s", parts[1])
 		}
-
 		leftList = append(leftList, leftNum)
 		rightList = append(rightList, rightNum)
+	}
+	if len(leftList) != len(rightList) {
+		return 0, fmt.Errorf("the lists have different lengths and cannot be paired")
 	}
 	if err := scanner.Err(); err != nil {
 		return 0, fmt.Errorf("error reading from file: %v", err)
 	}
 
-	// Count frequency of each number in the right list
-	rightCount := make(map[int]int)
+	leftCountMap := make(map[int]int)
+	for _, num := range leftList {
+		leftCountMap[num]++
+	}
+	rightCountMap := make(map[int]int)
 	for _, num := range rightList {
-		rightCount[num]++
+		rightCountMap[num]++
 	}
-
-	// Calculate similarity score
 	var similarityScore int64
-	for _, leftNum := range leftList {
-		count := rightCount[leftNum]
-		similarityScore += int64(leftNum * count)
+	for leftNum, leftCount := range leftCountMap {
+		if rightCount, exists := rightCountMap[leftNum]; exists {
+			similarityScore += int64(leftCount*rightCount) * int64(leftNum)
+		}
 	}
-
 	return int(similarityScore), nil
 }
