@@ -1,0 +1,2 @@
+// Paste your Advent of Code input here
+// Day 02 input
