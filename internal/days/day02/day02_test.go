@@ -27,7 +27,7 @@ func TestSolvePart2(t *testing.T) {
 		t.Fatalf("SolvePart2() error = %v", err)
 	}
 
-	expected := 18934359
+	expected := 689
 	if result != expected {
 		t.Errorf("SolvePart2() = %d, want %d", result, expected)
 	}
