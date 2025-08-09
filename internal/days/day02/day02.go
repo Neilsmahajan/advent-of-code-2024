@@ -25,7 +25,7 @@ func SolvePart1(input string) (int, error) {
 		if line == "" {
 			continue
 		}
-		
+
 		parts := strings.Fields(line)
 		var report []int
 		for _, part := range parts {
@@ -72,6 +72,71 @@ func SolvePart1(input string) (int, error) {
 }
 
 func SolvePart2(input string) (int, error) {
-	// TODO: Implement solution for Part 2
-	return 0, fmt.Errorf("day 02 part 2 not implemented yet")
+	file, err := os.Open(input)
+	if err != nil {
+		return 0, fmt.Errorf("failed to open input file: %w", err)
+	}
+	defer func() {
+		if cerr := file.Close(); cerr != nil {
+			fmt.Printf("failed to close input file: %v\n", cerr)
+		}
+	}()
+	var reports [][]int
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" {
+			continue
+		}
+		parts := strings.Fields(line)
+		var report []int
+		for _, part := range parts {
+			num, err := strconv.Atoi(part)
+			if err != nil {
+				return 0, fmt.Errorf("failed to parse number %s: %w", part, err)
+			}
+			report = append(report, num)
+		}
+		if len(report) > 0 {
+			reports = append(reports, report)
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		return 0, fmt.Errorf("failed to read input file: %w", err)
+	}
+
+	safeCount := 0
+	for _, report := range reports {
+		if safeWithOneSkip(report, 1) || safeWithOneSkip(report, -1) {
+			safeCount++
+		}
+	}
+
+	return safeCount, nil
+}
+
+func safeWithOneSkip(report []int, direction int) bool {
+	usedSkip := false
+	previous := report[0]
+	for i := 1; i < len(report); i++ {
+		switch direction {
+		case 1:
+			if report[i] > previous && report[i] <= previous+3 {
+				previous = report[i]
+			} else if !usedSkip {
+				usedSkip = true
+			} else {
+				return false
+			}
+		case -1:
+			if report[i] < previous && report[i] >= previous-3 {
+				previous = report[i]
+			} else if !usedSkip {
+				usedSkip = true
+			} else {
+				return false
+			}
+		}
+	}
+	return true
 }
