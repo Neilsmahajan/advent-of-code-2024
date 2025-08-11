@@ -8,6 +8,7 @@ import (
 
 	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day01"
 	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day02"
+	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day03"
 )
 
 type Solution struct {
@@ -18,6 +19,7 @@ type Solution struct {
 var solutions = map[int]Solution{
 	1: {day01.SolvePart1, day01.SolvePart2},
 	2: {day02.SolvePart1, day02.SolvePart2},
+	3: {day03.SolvePart1, day03.SolvePart2},
 }
 
 func main() {
