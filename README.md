@@ -157,26 +157,26 @@ The project structure is already set up with template files for all 25 days. Eac
 
 - [x] Day 1: Historian Hysteria ⭐⭐
 - [x] Day 2: Red-Nosed Reports ⭐⭐
-- [ ] Day 3: TBD
-- [ ] Day 4: TBD
-- [ ] Day 5: TBD
-- [ ] Day 6: TBD
-- [ ] Day 7: TBD
-- [ ] Day 8: TBD
-- [ ] Day 9: TBD
-- [ ] Day 10: TBD
-- [ ] Day 11: TBD
-- [ ] Day 12: TBD
-- [ ] Day 13: TBD
-- [ ] Day 14: TBD
-- [ ] Day 15: TBD
-- [ ] Day 16: TBD
-- [ ] Day 17: TBD
-- [ ] Day 18: TBD
-- [ ] Day 19: TBD
-- [ ] Day 20: TBD
-- [ ] Day 21: TBD
-- [ ] Day 22: TBD
-- [ ] Day 23: TBD
-- [ ] Day 24: TBD
-- [ ] Day 25: TBD
+- [x] Day 3: Mull It Over ⭐⭐
+- [ ] Day 4: Ceres Search
+- [ ] Day 5: Print Queue
+- [ ] Day 6: Guard Gallivant
+- [ ] Day 7: Bridge Repair
+- [ ] Day 8: Resonant Collinearity
+- [ ] Day 9: Disk Fragmenter
+- [ ] Day 10: Hoof It
+- [ ] Day 11: Plutonian Pebbles
+- [ ] Day 12: Garden Groups
+- [ ] Day 13: Claw Contraption
+- [ ] Day 14: Restroom Redoubt
+- [ ] Day 15: Warehouse Woes
+- [ ] Day 16: Reindeer Maze
+- [ ] Day 17: Chronospatial Computer
+- [ ] Day 18: RAM Run
+- [ ] Day 19: Linen Layout
+- [ ] Day 20: Race Condition
+- [ ] Day 21: Keypad Conundrum
+- [ ] Day 22: Monkey Market
+- [ ] Day 23: LAN Party
+- [ ] Day 24: Crossed Wires
+- [ ] Day 25: Code Chronicle
