@@ -1,27 +1,22 @@
-.PHONY: build run test clean day1 day2 all
+.PHONY: build run test clean all
 
 # Default target
 build:
 	go build -o bin/aoc ./cmd/aoc/main.go
 
-# Run specific day and part
+# Run specific day and part (optional INPUT=<filename or path>)
 run:
 	@if [ -z "$(DAY)" ]; then \
-		echo "Usage: make run DAY=<day> [PART=<part>]"; \
-		echo "Example: make run DAY=1 PART=1"; \
+		echo "Usage: make run DAY=<day> [PART=<part>] [INPUT=<input file>]"; \
+		echo "Example: make run DAY=4 PART=1 INPUT=example_input.txt"; \
 		exit 1; \
 	fi
 	@PART=$${PART:-1}; \
-	go run ./cmd/aoc/main.go -day=$(DAY) -part=$$PART
-
-# Quick shortcuts for common days
-day1:
-	go run ./cmd/aoc/main.go -day=1 -part=1
-	go run ./cmd/aoc/main.go -day=1 -part=2
-
-day2:
-	go run ./cmd/aoc/main.go -day=2 -part=1
-	go run ./cmd/aoc/main.go -day=2 -part=2
+	if [ -n "$(INPUT)" ]; then \
+		go run ./cmd/aoc/main.go -day=$(DAY) -part=$$PART -input="$(INPUT)"; \
+	else \
+		go run ./cmd/aoc/main.go -day=$(DAY) -part=$$PART; \
+	fi
 
 # Run all implemented solutions
 all:
@@ -55,9 +50,7 @@ check-updates:
 help:
 	@echo "Available targets:"
 	@echo "  build      - Build the project binary"
-	@echo "  run        - Run specific day: make run DAY=1 PART=1"
-	@echo "  day1       - Run both parts of day 1"
-	@echo "  day2       - Run both parts of day 2"
+	@echo "  run        - Run specific day: make run DAY=1 PART=1 [INPUT=example_input.txt]"
 	@echo "  all        - Run all implemented solutions"
 	@echo "  test       - Run tests"
 	@echo "  clean      - Clean build artifacts"

@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day01"
 	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day02"
 	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day03"
+	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day04"
 )
 
 type Solution struct {
@@ -20,16 +22,19 @@ var solutions = map[int]Solution{
 	1: {day01.SolvePart1, day01.SolvePart2},
 	2: {day02.SolvePart1, day02.SolvePart2},
 	3: {day03.SolvePart1, day03.SolvePart2},
+	4: {day04.SolvePart1, day04.SolvePart2},
 }
 
 func main() {
 	var day int
 	var part int
 	var all bool
+	var inputArg string
 
 	flag.IntVar(&day, "day", 1, "Day to solve (1-25)")
 	flag.IntVar(&part, "part", 1, "Part to solve (1 or 2)")
 	flag.BoolVar(&all, "all", false, "Run all implemented solutions")
+	flag.StringVar(&inputArg, "input", "", "Optional input file name or path (e.g. example_input.txt). If a bare filename, it is resolved inside that day's directory.")
 	flag.Parse()
 
 	if all {
@@ -47,7 +52,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	inputPath := filepath.Join("internal", "days", fmt.Sprintf("day%02d", day), "input.txt")
+	inputPath, err := resolveInputPath(day, inputArg)
+	if err != nil {
+		fmt.Printf("Error resolving input file: %v\n", err)
+		os.Exit(1)
+	}
 
 	solution, exists := solutions[day]
 	if !exists {
@@ -56,8 +65,6 @@ func main() {
 	}
 
 	var result int
-	var err error
-
 	if part == 1 {
 		result, err = solution.Part1(inputPath)
 	} else {
@@ -69,7 +76,47 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("Day %d Part %d: %d\n", day, part, result)
+	fmt.Printf("Day %d Part %d (%s): %d\n", day, part, filepath.Base(inputPath), result)
+}
+
+// resolveInputPath determines the path to the input file for a given day.
+// Rules:
+//   - If inputArg is empty -> internal/days/dayXX/input.txt
+//   - If inputArg is an absolute path and exists -> use as-is
+//   - If inputArg contains a path separator and exists as given -> use as given
+//   - Otherwise treat inputArg as a filename inside the day directory
+func resolveInputPath(day int, inputArg string) (string, error) {
+	dayDir := filepath.Join("internal", "days", fmt.Sprintf("day%02d", day))
+	defaultPath := filepath.Join(dayDir, "input.txt")
+
+	if strings.TrimSpace(inputArg) == "" {
+		return defaultPath, nil
+	}
+
+	candidate := inputArg
+	// Absolute path
+	if filepath.IsAbs(candidate) {
+		if _, err := os.Stat(candidate); err == nil {
+			return candidate, nil
+		}
+		return "", fmt.Errorf("absolute path not found: %s", candidate)
+	}
+
+	// Relative path provided (may include separators)
+	if strings.ContainsRune(candidate, os.PathSeparator) {
+		if _, err := os.Stat(candidate); err == nil {
+			return candidate, nil
+		}
+	}
+
+	// Treat as filename within day directory
+	inDay := filepath.Join(dayDir, candidate)
+	if _, err := os.Stat(inDay); err == nil {
+		return inDay, nil
+	}
+
+	// Finally, fallback: user maybe gave relative path from repo root that includes no separator (rare). Already checked.
+	return "", fmt.Errorf("could not locate input file '%s' (looked for %s and %s)", candidate, inDay, defaultPath)
 }
 
 func runAllSolutions() {

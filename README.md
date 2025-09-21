@@ -11,7 +11,8 @@ advent-of-code-2024/
 │   ├── days/                # Solutions for each day
 │   │   ├── day01/
 │   │   │   ├── day01.go     # Solution implementation
-│   │   │   └── input.txt    # Puzzle input
+│   │   │   ├── input.txt    # Puzzle input
+│   │   │   └── example_input.txt (example / sample input)
 │   │   ├── day02/
 │   │   │   ├── day02.go
 │   │   │   └── input.txt
@@ -29,13 +30,15 @@ advent-of-code-2024/
 The project includes a Makefile for easier command execution:
 
 ```bash
-# Run a specific day and part
+# Run a specific day and part (default input.txt)
 make run DAY=1 PART=1
-make run DAY=2 PART=2
 
-# Quick shortcuts for common days
-make day1    # Runs both part 1 and part 2 of day 1
-make day2    # Runs both part 1 and part 2 of day 2
+# Run with an alternate input file in the day directory
+make run DAY=1 PART=1 INPUT=example_input.txt
+
+# Run with a custom path (relative or absolute)
+make run DAY=1 PART=2 INPUT=internal/days/day01/example_input.txt
+
 
 # Run all implemented solutions
 make all
@@ -56,14 +59,21 @@ make clean
 make help
 ```
 
+INPUT is optional. If omitted, `input.txt` inside that day's directory is used.
+
 ### Running Solutions Directly with Go
 
 You can also run solutions using command line flags directly:
 
 ```bash
-# Run a specific day and part
+# Run a specific day and part (default input.txt)
 go run ./cmd/aoc/main.go -day=1 -part=1
-go run ./cmd/aoc/main.go -day=1 -part=2
+
+# Use an alternate input file in the same day directory
+go run ./cmd/aoc/main.go -day=1 -part=1 -input=example_input.txt
+
+# Provide a relative or absolute path to any file
+go run ./cmd/aoc/main.go -day=1 -part=2 -input=internal/days/day01/example_input.txt
 
 # Run all implemented solutions
 go run ./cmd/aoc/main.go -all
@@ -71,6 +81,12 @@ go run ./cmd/aoc/main.go -all
 # Default behavior (day 1, part 1)
 go run ./cmd/aoc/main.go
 ```
+
+`-input` rules:
+- Empty / omitted: uses `internal/days/dayXX/input.txt`
+- Absolute path: used directly if it exists
+- Path with separator: used as-is if it exists
+- Bare filename: resolved relative to the specific day directory
 
 ### Building
 
@@ -83,15 +99,15 @@ go build -o bin/aoc ./cmd/aoc/main.go
 
 # Run the built binary
 ./bin/aoc -day=1 -part=1
+./bin/aoc -day=1 -part=1 -input=example_input.txt
 ```
 
 ### Adding New Day Solutions
 
 1. **Copy your input**: Paste your puzzle input into `internal/days/dayXX/input.txt`
-
-2. **Implement the solution**: Edit `internal/days/dayXX/dayXX.go` and implement the `SolvePart1` and `SolvePart2` functions
-
-3. **Add to main.go**: Add the import and entry to the solutions map in `cmd/aoc/main.go`:
+2. **Optional**: Add sample inputs like `example_input.txt` for testing.
+3. **Implement the solution**: Edit `internal/days/dayXX/dayXX.go` and implement the `SolvePart1` and `SolvePart2` functions
+4. **Add to main.go**: Add the import and entry to the solutions map in `cmd/aoc/main.go`:
 
 ```go
 import (
@@ -105,11 +121,12 @@ var solutions = map[int]Solution{
 }
 ```
 
-4. **Test your solution**:
+5. **Test your solution**:
 
 ```bash
 go run ./cmd/aoc/main.go -day=XX -part=1
 go run ./cmd/aoc/main.go -day=XX -part=2
+go run ./cmd/aoc/main.go -day=XX -part=1 -input=example_input.txt
 ```
 
 ### Utility Functions
