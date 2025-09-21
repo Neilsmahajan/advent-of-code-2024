@@ -39,6 +39,9 @@ make run DAY=1 PART=1 INPUT=example_input.txt
 # Run with a custom path (relative or absolute)
 make run DAY=1 PART=2 INPUT=internal/days/day01/example_input.txt
 
+# Quick shortcuts for common days (uncomment in Makefile if desired)
+make day1
+make day2
 
 # Run all implemented solutions
 make all
@@ -175,8 +178,8 @@ The project structure is already set up with template files for all 25 days. Eac
 - [x] Day 1: Historian Hysteria ⭐⭐
 - [x] Day 2: Red-Nosed Reports ⭐⭐
 - [x] Day 3: Mull It Over ⭐⭐
-- [ ] Day 4: Ceres Search
-- [ ] Day 5: Print Queue
+- [x] Day 4: Ceres Search ⭐⭐
+- [x] Day 5: Print Queue ⭐⭐
 - [ ] Day 6: Guard Gallivant
 - [ ] Day 7: Bridge Repair
 - [ ] Day 8: Resonant Collinearity
