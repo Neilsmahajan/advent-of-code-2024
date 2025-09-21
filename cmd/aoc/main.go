@@ -11,6 +11,7 @@ import (
 	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day02"
 	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day03"
 	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day04"
+	"github.com/neilsmahajan/advent-of-code-2024/internal/days/day05"
 )
 
 type Solution struct {
@@ -23,6 +24,7 @@ var solutions = map[int]Solution{
 	2: {day02.SolvePart1, day02.SolvePart2},
 	3: {day03.SolvePart1, day03.SolvePart2},
 	4: {day04.SolvePart1, day04.SolvePart2},
+	5: {day05.SolvePart1, day05.SolvePart2},
 }
 
 func main() {
